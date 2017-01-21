@@ -12,4 +12,8 @@ public class CircleSpectrum : MonoBehaviour {
 	void Update () {
 	
 	}
+    public void showSpectrum(float[] spect)
+    {
+
+    }
 }
