@@ -48,5 +48,6 @@ public class SpectrumReader : MonoBehaviour {
                 go.GetComponent<CubeBehavior>().pulse(linearGained);
             }
         }
+       Camera.main.GetComponent<CircleSpectrum>().showSpectrum(spect);
 	}
 }
