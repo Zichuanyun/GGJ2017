@@ -5,6 +5,7 @@ public class CubeList : MonoBehaviour {
 
     public int listSize;
     public float terrainRange;
+    public static float ratio = 3.0f;
     public GameObject cubePrefab;
     GameObject[,] list;
     float cubeSize;
