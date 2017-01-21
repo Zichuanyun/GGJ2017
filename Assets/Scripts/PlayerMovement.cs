@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
     public float groundHeight = 5f;
     public LayerMask groundMask = -1;
     public float jumpSpeed = 5f;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         //Reset anim speed to default, because running may change it
         anim.speed = defaultSpeed;
-        Debug.Log(checkGround());
+        //Debug.Log(checkGround());
 
         Vector3 moveV = new Vector3(Input.GetAxisRaw(h_AxisName), 0, Input.GetAxisRaw(v_AxisName));
         move2D(moveV);
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour {
         anim.speed = defaultSpeed * runSpeed * runAnimSpeedFactor;
         transform.rotation = Quaternion.LookRotation(v);
         Vector3 velocity = transform.forward.normalized * runSpeed;
-        Debug.Log(velocity);
+        //Debug.Log(velocity);
         
             rg.velocity = new Vector3(velocity.x, rg.velocity.y, velocity.z);
     }
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 
     bool checkGround() {
         RaycastHit hit;
-        Vector3 upOffset = new Vector3(0, 0.5f, 0);
+        Vector3 upOffset = new Vector3(0, 0.1f, 0);
         Vector3 down = transform.TransformDirection(Vector3.down) * groundHeight;
         Debug.DrawRay(transform.position + upOffset, down, Color.green);
         if (Physics.Raycast(transform.position + upOffset, Vector3.down, out hit, 100, groundMask.value)) {
