@@ -23,8 +23,8 @@ public class Basics : MonoBehaviour
 
 		// cubeB > GENERIC WAY
 		DOTween.To(()=> cubeB.position, x=> cubeB.position = x, new Vector3(-2, 2, 0), 1).SetRelative().SetLoops(-1, LoopType.Yoyo);
-
-		// Voilà.
-		// To see all available shortcuts check out DOTween's online documentation.
-	}
+        DOTween.To(() => cubeB.position, x => cubeB.position = x, new Vector3(-2, 2, 0), 1).SetEase(Ease.InExpo);
+        // Voilà
+        // To see all available shortcuts check out DOTween's online documentation.
+    }
 }
