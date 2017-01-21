@@ -13,8 +13,6 @@ public class PlayerAntiStuck : MonoBehaviour {
 	void Start () {
         rg = GetComponent<Rigidbody>();
         cl = GameObject.FindWithTag("GroundController").GetComponent<CubeList>();
-
-
     }
 
     // Update is called once per frame
