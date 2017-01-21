@@ -114,7 +114,6 @@ public class PlayerMovement : MonoBehaviour {
             lockMove = true;
         anim.SetTrigger("beginSmash");
         StartCoroutine("smashStage2");
-
     }
 
     void endSmashStage1() {
@@ -144,6 +143,7 @@ public class PlayerMovement : MonoBehaviour {
             Vector2 pos = new Vector2(transform.position.x, transform.position.z);
             boom.boom(pos);
         }
+        this.GetComponent<SmashBall>().smashBall();
         yield return new WaitForSeconds(smashPasueTime);
         lockMove = false;
         onSmash = false;

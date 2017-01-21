@@ -19,15 +19,18 @@ public class CubeList : MonoBehaviour {
     public void Start() {
         list = new GameObject[listSize, listSize];
         cubeSize = terrainRange / listSize;
+        GameObject father = GameObject.FindGameObjectWithTag("Ground");
         for (int i = 0; i < listSize; i++)
         {
             for (int j = 0; j < listSize; j++)
             {
                 list[i, j] = Instantiate(cubePrefab);
+                list[i, j].transform.SetParent(father.transform);
                 getCube(i, j).transform.localScale = new Vector3(cubeSize, 1, cubeSize);
                 getCube(i, j).transform.localPosition = new Vector3((i + 0.5f) * cubeSize-terrainRange/2,1, (j + 0.5f) * cubeSize-terrainRange/2);
             }
         }
+        father.GetComponent<Transform>().Rotate(new Vector3(0, 45, 0));
     }
     public void reset()
     {
@@ -45,6 +48,9 @@ public class CubeList : MonoBehaviour {
         float y = position.y - getCube(0, 0).GetComponent<Transform>().position.y;
         int xIndex = (int)Mathf.Floor(x);
         int yIndex = (int)Mathf.Floor(y);
-        return getCube(xIndex, yIndex).GetComponent<Transform>().localScale.y;
+        if (xIndex >= 0 && xIndex < listSize && yIndex >= 0 && yIndex < listSize)
+            return getCube(xIndex, yIndex).GetComponent<Transform>().localScale.y;
+        else
+            return 1f;
     }
 }
