@@ -1,0 +1,23 @@
+void OnGUI()
+    {
+        //Draw a transoarent green quad
+        float w = Screen.width;
+        float h = Screen.height;
+        safeBox.rectMat.SetPass(0);
+        GL.PushMatrix();
+        Color clr = Color.green;
+        clr.a = 0.1f;
+        GL.LoadPixelMatrix();
+        #region draw safe box
+        if (safeBox.showSafeBox) {
+            GL.Begin(GL.QUADS);
+            GL.Color(clr);
+            GL.Vertex3(safeBox.left_bottom.x, safeBox.left_bottom.y, 0);
+            GL.Vertex3(safeBox.left_top.x, safeBox.left_top.y, 0);
+            GL.Vertex3(safeBox.right_top.x, safeBox.right_top.y, 0);
+            GL.Vertex3(safeBox.right_bottom.x, safeBox.right_bottom.y, 0);
+            GL.End();
+        }
+        #endregion
+        GL.PopMatrix();
+    }
