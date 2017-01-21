@@ -121,7 +121,7 @@ ModelImporter:
     400112: //RootNode
     4300000: RPG-Character-Mesh
     7400000: Smash
-    7400002: Smash_state1
+    7400002: Smash_stage1
     7400004: Smash_stage2
     9500000: //RootNode
     13700000: RPG-Character-Mesh
@@ -298,7 +298,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Smash_state1
+      name: Smash_stage1
       takeName: Take 001
       firstFrame: 0
       lastFrame: 13
@@ -320,7 +320,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 1
+        functionName: endSmashStage1
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: dc8c9e2313b0e62408630eba0d3d42c6,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -462,7 +470,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.07971861
+        functionName: endSmashStage2
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: dc8c9e2313b0e62408630eba0d3d42c6,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
