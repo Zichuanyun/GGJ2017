@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    int playerNumber = 2;
+    public int playerNumber = 2;
 
     public float groundHeight = 5f;
     public LayerMask groundMask = -1;
@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        h_AxisName = "Horizontal" + playerNumber.ToString();
+        v_AxisName = "Vertical" + playerNumber.ToString();
+
         if (rg = GetComponent<Rigidbody>())
         {
             Debug.Log("Rigidbody get");
@@ -60,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Input.GetJoystickNames()[0]);
         //Reset anim speed to default, because running may change it
         anim.speed = defaultSpeed;
         //Debug.Log(checkGround());

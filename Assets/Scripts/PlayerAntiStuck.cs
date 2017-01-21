@@ -21,7 +21,7 @@ public class PlayerAntiStuck : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        Debug.Log("Triggered");
+        //Debug.Log("Triggered");
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
         float scale = cl.getScale(pos);
         float Y = manHeight + scale / 2 + 1;
