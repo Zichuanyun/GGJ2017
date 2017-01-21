@@ -137,6 +137,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator endSmashTotally() {
+        Boom boom;
+        boom = GameObject.FindWithTag("GroundController").GetComponent<Boom>();
+        if(boom)
+        {
+            Vector2 pos = new Vector2(transform.position.x, transform.position.z);
+            boom.boom(pos);
+        }
         yield return new WaitForSeconds(smashPasueTime);
         lockMove = false;
         onSmash = false;
