@@ -39,4 +39,12 @@ public class CubeList : MonoBehaviour {
             }
         }
     }
+    public float getScale(Vector2 position)
+    {
+        float x = position.x - getCube(0, 0).GetComponent<Transform>().position.x;
+        float y = position.y - getCube(0, 0).GetComponent<Transform>().position.y;
+        int xIndex = (int)Mathf.Floor(x);
+        int yIndex = (int)Mathf.Floor(y);
+        return getCube(xIndex, yIndex).GetComponent<Transform>().localScale.y;
+    }
 }
