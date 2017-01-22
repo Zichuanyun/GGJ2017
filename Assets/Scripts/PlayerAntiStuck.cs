@@ -23,7 +23,11 @@ public class PlayerAntiStuck : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         //Debug.Log("Triggered");
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-        float scale = cl.getScale(pos);
+        float scale = 1.5f;
+        if (cl) {
+            scale = cl.getScale(pos);
+
+        }
         float Y = manHeight + scale / 2 + 1;
         Vector3 newPos = new Vector3(transform.position.x, Y, transform.position.z);
         transform.position = newPos;
