@@ -7,9 +7,9 @@ public class GameController : MonoBehaviour {
     //[HideInInspector]
     public GameObject[] players;
     public Transform[] playerSpawns;
+    public Transform ballSpawn;
     public Color[] playerColors;
     public GameObject playerPrefab;
-    public GameObject ballPrefab;
 
     public Text[] scoreTexts;
     public int[] scores;
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     public int scoreStep = 5;
 
     int playerNum;
+    GameObject ball;
 
     /// <summary>
     /// 0 start screen
@@ -36,9 +37,11 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        ball = GameObject.FindWithTag("Ball");
         scores = new int[2];
         playerNum = playerColors.GetLength(0);
         SpawnNewPlayers();
+        ResetBall();
         initToStartScreen();
     }
 
@@ -52,6 +55,7 @@ public class GameController : MonoBehaviour {
     void initToPlay() {
         titleText.text = "";
         TranslatePlayersToSpawn();
+        ResetBall();
         ShowGoals();
         for (int i = 0; i < playerNum; i++) {
             scores[i] = 0;
@@ -76,6 +80,11 @@ public class GameController : MonoBehaviour {
         if (status == 1) {
             UpdateScore();
         }
+    }
+
+    public void ResetBall() {
+        ball.GetComponent<Rigidbody>().velocity = new Vector3();
+        ball.transform.position = ballSpawn.position;
     }
 
     void SpawnNewPlayers() {
@@ -129,7 +138,11 @@ public class GameController : MonoBehaviour {
     }
 
     public void getScore(int playerNum) {
-        scores[playerNum - 1] += scoreStep;
+        if (status == 1) {
+            scores[playerNum - 1] += scoreStep;
+        }
+
+
     }
 
     void HideGoals() {
