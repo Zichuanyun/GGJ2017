@@ -11,16 +11,25 @@ public class GameController : MonoBehaviour {
     public Color[] playerColors;
     public GameObject playerPrefab;
 
+    public SpectrumReader SR;
+    public AudioClip startClip;
+    public AudioClip winnerClip;
+    //public AudioClip scoreClip;
+
+
     public Text[] scoreTexts;
     public int[] scores;
 
     public Text titleText;
     string titleContent = "Pepper and Salt\nWave Pineapple";
 
+    public Text timeText;
+
     public GoalManager[] goals;
 
     public float scoreInterval = 0.5f;
     public int scoreStep = 5;
+    public int timeOneRound = 60;
 
     int playerNum;
     GameObject ball;
@@ -29,6 +38,7 @@ public class GameController : MonoBehaviour {
     /// 0 start screen
     /// 1 on play
     /// 2 after play
+    /// 3 before play
     /// </summary>
     int status = 0;
     
@@ -50,6 +60,7 @@ public class GameController : MonoBehaviour {
         StartText();
         GiveControl();
         HideGoals();
+        StopAllCoroutines();
     }
 
     void initToPlay() {
@@ -60,6 +71,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < playerNum; i++) {
             scores[i] = 0;
         }
+        StartCoroutine("GameCountDown");
     }
 
 
@@ -68,10 +80,11 @@ public class GameController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Return)) {
             if (status == 0)
             {
-                status = 1;
-                initToPlay();
+                status = 3; // before play
+                StartCoroutine("StartCountdown");
             }
-            else if (status == 1) {
+            else if (status == 1 || status == 2)
+            {
                 status = 0;
                 initToStartScreen();
             }
@@ -79,6 +92,7 @@ public class GameController : MonoBehaviour {
 
         if (status == 1) {
             UpdateScore();
+
         }
     }
 
@@ -117,6 +131,7 @@ public class GameController : MonoBehaviour {
         {
             scoreTexts[i].text = "";
         }
+        timeText.text = "";
     }
 
     void GiveControl() {
@@ -159,10 +174,16 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    IEnumerator StartGameLoop() {
-
-
-        yield return null;
+    IEnumerator StartCountdown() {
+        for (int i = 3; i > 0; i--) {
+            titleText.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+        titleText.text = "START!";
+        yield return new WaitForSeconds(1f);
+        titleText.text = "";
+        status = 1;
+        initToPlay();
     }
 
     void UpdateScore() {
@@ -170,6 +191,32 @@ public class GameController : MonoBehaviour {
             scoreTexts[i].text = "<color=#" + ColorUtility.ToHtmlStringRGB(playerColors[i]) + ">PLAYER " + (i + 1) + ": " + "</color>"
                 + scores[i];
         }
+    }
+
+    IEnumerator GameCountDown() {
+        for (int i = timeOneRound; i > 0; i--) {
+            timeText.text = "00:" + i.ToString("D2");
+            yield return new WaitForSeconds(1f);
+        }
+        timeText.text = "00:00";
+        GameOver();
+
+    }
+
+    void GameOver() {
+        status = 2;
+        int winner = 0;
+        int maxIndex = 0;
+        int max = 0;
+        for (int i = 0; i < playerNum; i++) {
+            if (scores[i] > max) {
+                max = scores[i];
+                maxIndex = i;
+            }
+        }
+        winner = maxIndex;
+        titleText.text = "<color=#" + ColorUtility.ToHtmlStringRGB(playerColors[winner]) + ">PLAYER " + (winner + 1) + " WINS!" + "</color>";
+        TakeControl();
     }
 
 }
