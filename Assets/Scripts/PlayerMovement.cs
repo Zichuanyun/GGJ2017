@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     bool lockMove = false;
 
     public bool canControl = true;
+    public bool isDead = false;
 
     Animator anim;
     float defaultSpeed = 1.0f;
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
         playerNumber = p_number;
         h_AxisName = "Horizontal" + playerNumber.ToString();
         v_AxisName = "Vertical" + playerNumber.ToString();
+
+        GetComponentInChildren<Light>().color = color;
     }
 
     // Use this for initialization
@@ -66,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         //Reset anim speed to default, because running may change it
         anim.speed = defaultSpeed;
         //Debug.Log(checkGround());
+        anim.SetBool("dead", isDead);
 
         if (canControl)
         {
