@@ -13,6 +13,7 @@ public class Boom : MonoBehaviour {
     public float lowPassDuration;
     public float lowCutOff;
     public AudioClip boomSound;
+    public static bool isBooming;
     // Use this for initialization
     void Start() {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
@@ -24,8 +25,10 @@ public class Boom : MonoBehaviour {
             boom(position);
     }
     void FixedUpdate() {
-        if(time>0)
-        booming();
+        if (time > 0)
+            booming();
+        else
+            isBooming = false;
     }
 
 
@@ -44,7 +47,9 @@ public class Boom : MonoBehaviour {
             for (int j = 0; j < listSize; j++)
             {
                 GameObject go = this.GetComponent<CubeList>().getCube(i, j);
-                go.GetComponent<CubeBehavior>().reset();
+                if(!isBooming)
+                    go.GetComponent<CubeBehavior>().reset();
+                isBooming = true;
                 Vector2 goPos = new Vector2(go.GetComponent<Transform>().position.x, go.GetComponent<Transform>().position.z);
                 float dist = Vector2.Distance(goPos, position);
                 if (2*Mathf.PI * (duration - time) > dist )
