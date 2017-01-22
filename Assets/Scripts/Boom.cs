@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 
 public class Boom : MonoBehaviour {
+
     public float duration;
     public float maxPulse;
     public float distance;
@@ -12,6 +13,7 @@ public class Boom : MonoBehaviour {
     public float lowCutOff;
     public AudioClip boomSound;
     public static bool isBooming;
+    int running;
     Queue boomQ = new Queue();
     // Use this for initialization
     void Start() {
@@ -20,7 +22,6 @@ public class Boom : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
     }
     void FixedUpdate() {
         booming();
@@ -40,33 +41,41 @@ public class Boom : MonoBehaviour {
 
     void booming()
     {
-        if (boomQ.Count>0)
+        if (boomQ.Count > 0)
         {
-            int listSize = this.GetComponent<CubeList>().getListSize();
-            isBooming = false;
+            isBooming = true;
             BoomObject bo = (BoomObject)boomQ.Dequeue();
-            for (int i = 0; i < listSize; i++)
+            StartCoroutine(elementBoom(bo));
+        }
+        if (boomQ.Count == 0 && running == 0)
+            isBooming = false;
+    }
+    IEnumerator elementBoom(BoomObject bo)
+    {
+        running++;
+        int listSize = this.GetComponent<CubeList>().getListSize();
+        for (int i = 0; i < listSize; i++)
+        {
+            for (int j = 0; j < listSize; j++)
             {
-                for (int j = 0; j < listSize; j++)
+                GameObject go = this.GetComponent<CubeList>().getCube(i, j);
+                Vector2 goPos = new Vector2(go.GetComponent<Transform>().position.x, go.GetComponent<Transform>().position.z);
+                float dist = Vector2.Distance(goPos, bo.position);
+                if (2 * Mathf.PI * (duration - bo.time) > dist)
                 {
-                    GameObject go = this.GetComponent<CubeList>().getCube(i, j);
-                    Vector2 goPos = new Vector2(go.GetComponent<Transform>().position.x, go.GetComponent<Transform>().position.z);
-                    float dist = Vector2.Distance(goPos, bo.position);
-                    if (2* Mathf.PI * (duration - bo.time) > dist)
-                    {
-                        float maxAmpli = maxPulse * bo.time / duration;
-                        float ampli = maxAmpli * Mathf.Max((distance - dist), 0) / distance;
-                        float height = ampli * Mathf.Sin(timeOmega * (bo.time - duration) + dist * distOmega);
-                        go.GetComponent<CubeBehavior>().pulse(height);
-                    }
+                    float maxAmpli = maxPulse * bo.time / duration;
+                    float ampli = maxAmpli * Mathf.Max((distance - dist), 0) / distance;
+                    float height = ampli * Mathf.Sin(timeOmega * (bo.time - duration) + dist * distOmega);
+                    go.GetComponent<CubeBehavior>().pulse(height);
                 }
             }
-            bo.time = bo.time-(1f / 30f);
-            if (bo.time > 0f)
-            {
-                isBooming = true;
-                boomQ.Enqueue(bo);
-            }
         }
+        bo.time = bo.time - (1f / 30f);
+        if (bo.time > 0f)
+        {
+            boomQ.Enqueue(bo);
+        }
+        running--;
+        yield return null;
     }
 }
