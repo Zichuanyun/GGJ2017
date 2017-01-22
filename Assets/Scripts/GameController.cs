@@ -11,9 +11,10 @@ public class GameController : MonoBehaviour {
     public Color[] playerColors;
     public GameObject playerPrefab;
 
-    public SpectrumReader SR;
-    public AudioClip startClip;
-    public AudioClip winnerClip;
+
+    public WoController WC;
+    public AudioSource startSound;
+    public AudioSource winnerSound;
     //public AudioClip scoreClip;
 
 
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour {
     public float scoreInterval = 0.5f;
     public int scoreStep = 5;
     public int timeOneRound = 60;
+
+    public ParticleSystem ballPartical;
 
     int playerNum;
     GameObject ball;
@@ -152,11 +155,18 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public void getScore(int playerNum) {
+    public void getScore(int whichPlayer) {
         if (status == 1) {
-            scores[playerNum - 1] += scoreStep;
+            scores[whichPlayer - 1] += scoreStep;
         }
+        WC.play();
+        ballPartical.startColor = playerColors[whichPlayer - 1];
+        ballPartical.Play();
+    }
 
+    public void leaveScore() {
+        WC.stop();
+        ballPartical.Stop();
 
     }
 
@@ -180,6 +190,7 @@ public class GameController : MonoBehaviour {
             yield return new WaitForSeconds(1);
         }
         titleText.text = "START!";
+        startSound.Play();
         yield return new WaitForSeconds(1f);
         titleText.text = "";
         status = 1;
@@ -216,6 +227,7 @@ public class GameController : MonoBehaviour {
         }
         winner = maxIndex;
         titleText.text = "<color=#" + ColorUtility.ToHtmlStringRGB(playerColors[winner]) + ">PLAYER " + (winner + 1) + " WINS!" + "</color>";
+        winnerSound.Play();
         TakeControl();
     }
 
