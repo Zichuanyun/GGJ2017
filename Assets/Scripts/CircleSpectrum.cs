@@ -17,8 +17,8 @@ public class CircleSpectrum : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //spect = AudioListener.GetSpectrumData(windowSize, 0, FFTWindow.Hamming);
-        //showSpectrum(spect);
+        spect = AudioListener.GetSpectrumData(windowSize, 0, FFTWindow.Hamming);
+        showSpectrum(spect);
     }
   
     public void showSpectrum(float[] _spect)
