@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     string v_AxisName;
 
     public float smashPasueTime = 0.3f;
-    float runAnimSpeedFactor = 0.1f;
+    public float runAnimSpeedFactor = 0.25f;
 
     bool onSmash = false; // direction is locked
     bool lockMove = false;

@@ -8,6 +8,8 @@ public class CircleSpectrum : MonoBehaviour {
     float[] spect;
     public Material mat;
     public float depth;
+
+    public float y_offset = 10f;
     // Use this for initialization
     void Start() {
 
@@ -29,13 +31,13 @@ public class CircleSpectrum : MonoBehaviour {
         {
             GL.PushMatrix();
             GL.Begin(GL.LINES);
-            GL.Color(new Color(0f, 1f, (float)i / (float)windowSize)*2);
+            GL.Color(new Color(0.7f, 0f, (float)i / (float)windowSize)*2);
             float theta = (float)i / (float)windowSize * 2f*Mathf.PI-Mathf.PI/2;
             float mag = spect[i] * ampli+lowAmp;
-            GL.Vertex(new Vector3(mag * Mathf.Cos(theta), mag * Mathf.Sin(theta),depth));
+            GL.Vertex(new Vector3(mag * Mathf.Cos(theta), mag * Mathf.Sin(theta) + y_offset, depth));
             theta = (float)(i+1) / (float)windowSize * 2f * Mathf.PI-Mathf.PI / 2;
             mag = spect[i+1] * ampli + lowAmp;
-            GL.Vertex(new Vector3(mag * Mathf.Cos(theta), mag * Mathf.Sin(theta), depth));
+            GL.Vertex(new Vector3(mag * Mathf.Cos(theta), mag * Mathf.Sin(theta) + y_offset, depth));
             GL.End();
             GL.PopMatrix();
         }

@@ -10,14 +10,15 @@ public class GameController : MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject ballPrefab;
 
-    public 
+    public GoalManager[] goals;
+    public int[] score;
+    public int maxScore = 5;
 
 
 	// Use this for initialization
 	void Start () {
         SpawnPlayers();
         GiveControl();
-
     }
 	
 	// Update is called once per frame
@@ -40,5 +41,9 @@ public class GameController : MonoBehaviour {
             PlayerMovement pm = players[i].GetComponent<PlayerMovement>();
             pm.canControl = true;
         }
+    }
+
+    public void getScore(int playerNum) {
+
     }
 }
