@@ -22,6 +22,7 @@ public class SpectrumReader : MonoBehaviour {
         //
         // }
         float[] spect = AudioListener.GetSpectrumData(windowSize, 0, FFTWindow.Hamming);
+        this.transform.GetChild(1).GetComponent<SpectrumLine>().showSpectrum(spect);
         if (spect.GetLength(0)>0)
         {
             if (!Boom.isBooming)

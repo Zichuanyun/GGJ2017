@@ -23,9 +23,12 @@ public class PlayerMovement : MonoBehaviour
     public bool canControl = true;
     public bool isDead = false;
 
+    public float smashCD = 3f;
+
     Animator anim;
     float defaultSpeed = 1.0f;
     Rigidbody rg;
+    bool canSmash = true;
 
     Vector3 faceDirection = new Vector3();
 
@@ -97,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             string fireBN = "Fire" + playerNumber.ToString();
-            if (Input.GetButtonDown(fireBN))
+            if (Input.GetButtonDown(fireBN) && canSmash)
             {
                 if (!onSmash)
                     doSmash();
@@ -200,9 +203,24 @@ public class PlayerMovement : MonoBehaviour
             Vector2 pos = new Vector2(transform.position.x, transform.position.z);
             boom.boom(pos);
         }
+        StartCoroutine("smashCDCounter");
         yield return new WaitForSeconds(smashPasueTime);
         lockMove = false;
         onSmash = false;
+    }
+
+    IEnumerator smashCDCounter() {
+        canSmash = false;
+        int n = 10;
+        float cdet = smashCD / n;
+        yield return new WaitForSeconds(smashCD);
+
+        /*
+        for (int i = 0; i < n; i++) {
+            yield return new WaitForSeconds(cdet);
+        }
+        */
+        canSmash = true;
     }
 
 

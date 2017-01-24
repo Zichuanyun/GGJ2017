@@ -11,17 +11,20 @@ public class Boom : MonoBehaviour {
     public float distOmega;
     public float lowPassDuration;
     public float lowCutOff;
-    public AudioClip boomSound;
+    public AudioSource boomSound;
     public static bool isBooming;
     int running;
     Queue boomQ = new Queue();
     // Use this for initialization
     void Start() {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+        boomSound = this.transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetKeyDown("space"))
+            boom(Vector2.zero);
     }
     void FixedUpdate() {
         booming();
@@ -29,7 +32,7 @@ public class Boom : MonoBehaviour {
 
 
     public void boom(Vector2 _position) {
-        AudioSource.PlayClipAtPoint(boomSound, _position);
+        boomSound.Play(0);
         this.gameObject.GetComponent<AudioLowPassFilter>().cutoffFrequency = lowCutOff;
         DOTween.To(() => this.gameObject.GetComponent<AudioLowPassFilter>().cutoffFrequency, x => this.gameObject.GetComponent<AudioLowPassFilter>().cutoffFrequency=x, 22000, lowPassDuration).SetEase(Ease.InExpo);
         BoomObject boomObject = new global::BoomObject(_position,duration);
